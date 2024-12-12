@@ -1,2 +1,77 @@
-Deploy a Web App on Nginx Server using AWS ECR, AWS ECS and AWS Fargate
+Deploy a Web App on Nginx Server using AWS ECR, AWS ECS and AWS Fargate 
 
+Prerequisites 
+
+Before starting this tutorial, you will need: 
+
+1. An AWS account ( IAM user with required permission to work with AWS ECR, AWS ECS and AWS Fargate)
+
+2. AWS Command Line Interface installed and configured.  
+
+3. Docker Engine installed, and the application started. 
+
+4. Visual Studio Code installed.   
+
+---------------------------------
+Step 1: Create a Container Image 
+---------------------------------
+In this step, you will create a container image of a sample web app. 
+
+1. In a new terminal window, run the following commands to create a new folder called nginx-web-app, and navigate to the folder. 
+
+mkdir nginx-web-app 
+
+cd nginx-web-app 
+
+2. On your local machine, navigate to the Visual Studio Code application, and open the nginx-web-app folder. 
+
+3. In the Explorer section, select the +New file icon, and enter index.html for the file name. 
+
+4. Select the index.html file and update it with the following code. Then, save the file. 
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sample Web App</title>
+<style>
+html { color-scheme: light; }
+body { width: 35em; margin: 0 auto;
+font-family: Amazon Ember, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to AWS ECS and Fargate hands-on !</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+<p><em>Thank you !</em></p>
+</body>
+</html>
+
+5. Create another file named Dockerfile, and update it with the following code. Then, save the file. 
+
+FROM --platform=linux/amd64 nginx:latest 
+
+WORKDIR /usr/share/nginx/html 
+
+COPY index.html index.html 
+
+6. In the open terminal window, run the following command to create container image. 
+
+docker build -t nginx-web-app . 
+
+-------------------------------------------
+Step 2: Push Container Image to Amazon ECR 
+-------------------------------------------
+In this step, you will create a private repository in Amazon ECR and push the container image you built in previous module to the newly created repository. 
+
+1. Sign in to the AWS Management console in a new browser window, and open the Amazon Elastic Container Registry at https://console.aws.amazon.com/ecr/home. 
+
+2. For Create a repository, choose Create. 
+
+3. On the Create repository page, for Repository name enter nginx-web-app, leave the default selections, and select Create repository. 
+
+4. Once the repository has been created, select the radio button for the repository, and then select View push commands 
+
+5. Follow all the steps in the pop-up window, to authenticate and push the image to the repository. 
+
+ 
